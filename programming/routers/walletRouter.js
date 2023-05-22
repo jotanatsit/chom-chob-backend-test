@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
    updateWalletBalances,
    addCurrencyToWallet,
+   transferCurrency,
 } from "../controllers/walletController.js";
 import { genAddress } from "../middleware/genAddress.js";
 
@@ -16,5 +17,8 @@ walletRouter.post(
    genAddress,
    addCurrencyToWallet
 );
+
+//-----transfer-currency-to-other-----
+walletRouter.put("/:senderId/transfer", transferCurrency);
 
 export default walletRouter;

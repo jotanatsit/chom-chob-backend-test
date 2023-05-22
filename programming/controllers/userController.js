@@ -10,14 +10,13 @@ export const getUserDetail = async (req, res) => {
          `
          select
             u.user_id,
-            u.username,
-            w.wallet_id,
-            array_agg(jsonb_build_object('balance',b.balance,'currency',b.currency)) as balances
+            u.username,            
+            array_agg(jsonb_build_object('wallet_id',w.wallet_id,'balance',b.balance,'currency',b.currency)) as balances
          from users u
          left join wallets w on w.user_id = u.user_id
          left join balances b on b.wallet_id = w.wallet_id
          where u.user_id=$1
-         group by u.user_id,u.username,w.wallet_id;
+         group by u.user_id,u.username;
          `,
          [id]
       );
