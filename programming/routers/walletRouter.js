@@ -3,6 +3,7 @@ import {
    updateWalletBalances,
    addCurrencyToWallet,
    transferCurrency,
+   transferDiffCurrency,
 } from "../controllers/walletController.js";
 import { genAddress } from "../middleware/genAddress.js";
 
@@ -20,5 +21,8 @@ walletRouter.post(
 
 //-----transfer-currency-to-other-----
 walletRouter.put("/:senderId/transfer", transferCurrency);
+
+//----transfer-diff-currency-----
+walletRouter.put("/:senderId/transfer-diff", transferDiffCurrency);
 
 export default walletRouter;

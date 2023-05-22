@@ -123,7 +123,110 @@ export const transferCurrency = async (req, res) => {
       );
 
       res.json({
-         message: "transferred secceed",
+         message: "transferred succeed",
+      });
+   } catch (error) {
+      res.json({
+         message: error.message,
+      });
+   }
+};
+
+//-----transfer-currency-to-other-----
+export const transferDiffCurrency = async (req, res) => {
+   const senderId = req.params.senderId;
+   const balance = req.query.balance;
+   const senderCurrency = req.query.senderCurrency;
+   const receiverCurrency = req.query.receiverCurrency;
+   const receiverId = req.query.receiverId;
+   let senderWallet;
+   let receiverWallet;
+   let response;
+   let rate;
+
+   try {
+      //---sender-wallet---
+      response = await pool.query(
+         `
+         select w.wallet_id
+         from wallets w
+         left join balances b on b.wallet_id=w.wallet_id
+         where
+         w.user_id=$1 and
+         b.currency=$2
+         group by w.wallet_id;`,
+         [senderId, senderCurrency]
+      );
+      senderWallet = response.rows[0].wallet_id;
+
+      //---receiver-wallet---
+      response = await pool.query(
+         `
+         select w.wallet_id
+         from wallets w
+         left join balances b on b.wallet_id=w.wallet_id
+         where
+         w.user_id=$1 and
+         b.currency=$2
+         group by w.wallet_id;`,
+         [receiverId, receiverCurrency]
+      );
+      receiverWallet = response.rows[0].wallet_id;
+
+      //---rate---
+      response = await pool.query(
+         `select *
+         from exchanges
+         where
+         ("primary"=$1 and secondary=$2)
+         or
+         ("primary"=$2 and secondary=$1)`,
+         [senderCurrency, receiverCurrency]
+      );
+      rate = response.rows[0].rate;
+      const primary = response.rows[0].primary;
+      const secondary = response.rows[0].secondary;
+      let balanceCal;
+      if (senderCurrency === primary && receiverCurrency === secondary) {
+         await pool.query(
+            `
+            update balances
+            set balance=balance-$1
+            where wallet_id=$2 and currency=$3
+         `,
+            [balance, senderWallet, senderCurrency]
+         );
+         balanceCal = balance / rate;
+         await pool.query(
+            `
+            update balances
+            set balance=balance+$1
+            where wallet_id=$2 and currency=$3
+         `,
+            [balanceCal, receiverWallet, receiverCurrency]
+         );
+      } else if (senderCurrency === secondary && receiverCurrency === primary) {
+         await pool.query(
+            `
+            update balances
+            set balance=balance-$1
+            where wallet_id=$2 and currency=$3
+         `,
+            [balance, senderWallet, senderCurrency]
+         );
+         balanceCal = balance * rate;
+         await pool.query(
+            `
+            update balances
+            set balance=balance+$1
+            where wallet_id=$2 and currency=$3
+         `,
+            [balanceCal, receiverWallet, receiverCurrency]
+         );
+      }
+
+      res.json({
+         message: "transferred succeed",
       });
    } catch (error) {
       res.json({
