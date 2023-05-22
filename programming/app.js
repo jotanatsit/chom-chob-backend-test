@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import userRouter from "./routers/userRouter.js";
 import walletRouter from "./routers/walletRouter.js";
+import rateRouter from "./routers/rateRouter.js";
 
 async function init() {
    const app = express();
@@ -15,6 +16,7 @@ async function init() {
    // Router
    app.use("/user", userRouter);
    app.use("/user", walletRouter);
+   app.use("/rate", rateRouter);
 
    app.get("/", (req, res) => {
       res.send("Hello World!");
