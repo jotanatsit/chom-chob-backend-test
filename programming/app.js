@@ -14,6 +14,7 @@ async function init() {
 
    // Router
    app.use("/user", userRouter);
+   app.use("/user", walletRouter);
 
    app.get("/", (req, res) => {
       res.send("Hello World!");
