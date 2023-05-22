@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import userRouter from "./routers/userRouter.js";
+import walletRouter from "./routers/walletRouter.js";
 
 async function init() {
    const app = express();
@@ -9,6 +11,9 @@ async function init() {
 
    app.use(express.json());
    app.use(express.urlencoded({ extended: true }));
+
+   // Router
+   app.use("/user", userRouter);
 
    app.get("/", (req, res) => {
       res.send("Hello World!");
