@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "39337573-5bf8-4e79-b552-7fc309a82d9f",
+		"name": "programming_chom_chob_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26326260"
+	},
+	"item": [
+		{
+			"name": "get user detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:4000/user/1"
+			},
+			"response": []
+		},
+		{
+			"name": "update wallet balance",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/user/1/wallet/edit?balance=2.15984&currency=bnb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"1",
+						"wallet",
+						"edit"
+					],
+					"query": [
+						{
+							"key": "balance",
+							"value": "2.15984"
+						},
+						{
+							"key": "currency",
+							"value": "bnb"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add currency to wallet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/user/2/wallet/add-currency?currency=busd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"2",
+						"wallet",
+						"add-currency"
+					],
+					"query": [
+						{
+							"key": "currency",
+							"value": "busd"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transfer same currency",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/user/1/transfer?receiverId=2&balance=5&currency=eth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"1",
+						"transfer"
+					],
+					"query": [
+						{
+							"key": "receiverId",
+							"value": "2"
+						},
+						{
+							"key": "balance",
+							"value": "5"
+						},
+						{
+							"key": "currency",
+							"value": "eth"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update exchange rate",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/rate/edit?primary=btc&secondary=eth&rate=0.08",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"rate",
+						"edit"
+					],
+					"query": [
+						{
+							"key": "primary",
+							"value": "btc"
+						},
+						{
+							"key": "secondary",
+							"value": "eth"
+						},
+						{
+							"key": "rate",
+							"value": "0.08"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transfer diff currency",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/user/1/transfer-diff?receiverId=2&balance=25.025&senderCurrency=eth&receiverCurrency=btc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"1",
+						"transfer-diff"
+					],
+					"query": [
+						{
+							"key": "receiverId",
+							"value": "2"
+						},
+						{
+							"key": "balance",
+							"value": "25.025"
+						},
+						{
+							"key": "senderCurrency",
+							"value": "eth"
+						},
+						{
+							"key": "receiverCurrency",
+							"value": "btc"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
