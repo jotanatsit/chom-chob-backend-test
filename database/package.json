@@ -4,6 +4,9 @@
    "description": "",
    "main": "app.js",
    "type": "module",
+   "bin": {
+      ".sequelizerc": "/.sequelizerc.js"
+   },
    "scripts": {
       "start": "nodemon app.js",
       "test": "echo \"Error: no test specified\" && exit 1"
